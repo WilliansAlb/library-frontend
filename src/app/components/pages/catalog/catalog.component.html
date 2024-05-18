@@ -1,0 +1,52 @@
+<div class="card m-5">
+	<div class="card-header">
+		<h1 style="align-items: center;">Catalogo</h1>
+	</div>
+	<div class="card-body">
+		<div class="form-group">
+			<label for="search" class="form-label">Buscar</label>
+			<input type="text" class="form-control">
+		</div>
+		<div class="component m-5">
+
+			<ul class="align">
+				<li *ngFor="let test of tests; let i = index" [style]="i%2 != 0?'opacity:0.5;':''">
+					<figure class="book">
+						<ul class="hardcover_front">
+							<li>
+								<div class="coverDesign" [style]="'background-image: url('+test+');'">
+									<span class="ribbon" *ngIf="i%2 != 0">RESERVA</span>
+									<h1>La patria del Criollo</h1>
+									<p>Pedro de la fuente</p>
+								</div>
+							</li>
+							<li></li>
+						</ul>
+						<ul class="page">
+							<li></li>
+							<li>
+								<a class="btn1" href="#">
+									{{i%2 != 0? 'RESERVAR':'PRESTAR'}}
+								</a>
+							</li>
+							<li></li>
+							<li></li>
+							<li></li>
+						</ul>
+						<ul class="hardcover_back">
+							<li></li>
+							<li></li>
+						</ul>
+						<ul class="book_spine">
+							<li></li>
+							<li></li>
+						</ul>
+					</figure>
+					<h1>La patria del criollo asereje deje</h1>
+					<span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae a, incidunt accusamus impedit minima reprehenderit, eligendi, ratione eos accusantium laboriosam magnam cum. At quis velit quas sequi quia dicta quod.</span>
+					<p>autor</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>

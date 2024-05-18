@@ -1,0 +1,28 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&display=swap');
+
+:root {
+	--cprimary: #85390e;
+	--csecondary: #a2754b;
+	--ctertiary: #e6aa61; 
+	--cquaternary: #e6d2b7;
+	--cquinary: #e6e7e4;
+	--cyellow: #fffe90;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5, label {
+	font-family: 'Crimson Text', serif;
+}
+
+input {
+	font-family: 'Cormorant';
+}
+
+.btn {
+	font-family: 'Cormorant';
+}
