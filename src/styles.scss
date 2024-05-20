@@ -5,7 +5,7 @@
 :root {
 	--cprimary: #85390e;
 	--csecondary: #a2754b;
-	--ctertiary: #e6aa61; 
+	--ctertiary: #e6aa61;
 	--cquaternary: #e6d2b7;
 	--cquinary: #e6e7e4;
 	--cyellow: #fffe90;
@@ -15,7 +15,8 @@ h1,
 h2,
 h3,
 h4,
-h5, label {
+h5,
+label {
 	font-family: 'Crimson Text', serif;
 }
 
@@ -25,4 +26,23 @@ input {
 
 .btn {
 	font-family: 'Cormorant';
+}
+
+.clickable {
+	opacity: 0.5;
+	cursor: pointer;
+}
+
+.clickable:hover {
+	opacity: 1;
+}
+
+.td-middle {
+	vertical-align: middle;
+	text-align: center;
+}
+
+.tr-middle td {
+	vertical-align: middle;
+	text-align: center;
 }

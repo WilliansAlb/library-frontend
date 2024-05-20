@@ -1,0 +1,59 @@
+<div class="relative">
+	<div class="background">
+	</div>
+	<div class="invitation">
+		<div class="wrapper">
+			<div class="form__contact">
+				<fieldset>
+					<p>Hello, {{license}}!</p>
+					<p>Apparently you don't have a user yet, to create one tell me, <span
+							class="form__field field--name" data-placeholder="write you name" tabindex="1"
+							contenteditable (input)="request.name = $event['srcElement']['outerText']"></span> and the
+						date of your birthday.</p>
+					<p><i class="fa fa-calendar"></i><span class="form__field field--day" data-placeholder="day"
+							tabindex="2" (input)="request.day = $event['srcElement']['outerText']"
+							contenteditable></span>/<span class="form__field field--month" data-placeholder="month"
+							tabindex="3" (input)="request.month = $event['srcElement']['outerText']"
+							contenteditable></span>/<span class="form__field field--year"
+							(input)="request.year = $event['srcElement']['outerText']" data-placeholder="year"
+							tabindex="4" contenteditable></span>
+					</p>
+					<p>Now write the username and the password you want.</p>
+					<p><i class="fa fa-user"></i><span class="form__field field--username" data-placeholder="username"
+							tabindex="5" (input)="request.username = $event['srcElement']['outerText']"
+							contenteditable></span>
+						<i class="fa fa-lock" style="margin-left: 1em;"></i>
+						<input type="password" tabindex="6" id="password" [(ngModel)]="request.password" style="background: none !important; border: none !important;
+						font: 24px 'Shadows Into Light', cursive !important;" placeholder="set your password" name="password">
+					</p>
+					<button type="submit" (click)="create()"
+						[disabled]="!request.name || !request.username || !request.password || !request.day || !request.month || !request.year"
+						class="button button--xlarge" tabindex="7">Create user &#187;</button>
+				</fieldset>
+			</div>
+			<form class="form__contact" action="">
+			</form>
+		</div>
+
+		<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+			xml:space="preserve">
+			<defs>
+				<filter id="blur0">
+					<feGaussianBlur in="SourceGraphic" stdDeviation="0 0" />
+				</filter>
+				<filter id="blur1">
+					<feGaussianBlur in="SourceGraphic" stdDeviation="0 5" />
+				</filter>
+				<filter id="blur2">
+					<feGaussianBlur in="SourceGraphic" stdDeviation="0 10" />
+				</filter>
+				<filter id="blur3">
+					<feGaussianBlur in="SourceGraphic" stdDeviation="0 15" />
+				</filter>
+				<filter id="blur4">
+					<feGaussianBlur in="SourceGraphic" stdDeviation="0 20" />
+				</filter>
+			</defs>
+		</svg>
+	</div>
+</div>

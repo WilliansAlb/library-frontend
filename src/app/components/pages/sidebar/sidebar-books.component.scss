@@ -48,7 +48,7 @@
 	opacity: 1;
 }
 
-.box-out .book::before, .selected::before {
+.selected::before {
 	content: " ";
     z-index: 9999999;
     display: block;

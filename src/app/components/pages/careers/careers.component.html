@@ -1,0 +1,69 @@
+<div class="card m-5">
+	<div class="card-header">
+		<h1>Careers <i class="text-info fa fa-circle-plus clickable" (click)="showCreate()" appCheckRole
+				[roles]="[role.LIBRARIAN]"></i></h1>
+	</div>
+	<div class="card-body">
+		<div class="form-group">
+			<label for="search" class="form-label">Search</label>
+			<input type="text" id="search" placeholder="Search by name" name="search" [(ngModel)]="searchWord"
+				(input)="search()" class="form-control">
+		</div>
+		<div class="table-responsive">
+			<table class="table">
+				<thead>
+					<tr>
+						<th class="td-middle">Code</th>
+						<th>Career</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngIf="newCareer">
+						<td class="bg-info">
+							<div class="input-group">
+								<input type="number" placeholder="Set career id" [(ngModel)]="newCareer.careerId"
+									id="careerId" name="careerId" class="form-control">
+							</div>
+						</td>
+						<td class="bg-info">
+							<div class="input-group">
+								<input type="text" placeholder="Set career name" [(ngModel)]="newCareer.name"
+									id="careerName" name="careerName" class="form-control">
+							</div>
+						</td>
+						<td class="bg-info td-middle">
+							<app-loading-button [object]="buttonSave" (clicked)="saveCareer()"
+								[disabled]="!newCareer.careerId || !newCareer.name"></app-loading-button>
+							<app-loading-button [object]="buttonQuite" (clicked)="newCareer = null"
+								*ngIf="!buttonSave.loading"></app-loading-button>
+						</td>
+					</tr>
+					<tr *ngFor="let career of careers">
+						<ng-container *ngIf="career.careerId != careerId">
+							<td class="td-middle">
+								{{career.careerId}}
+							</td>
+							<td>{{career.name}}</td>
+							<td><i class="clickable fa fa-edit text-info" (click)="careerId = career.careerId"></i></td>
+						</ng-container>
+						<ng-container *ngIf="career.careerId == careerId">
+							<td class="td-middle">
+								{{career.careerId}}
+							</td>
+							<td>
+								<input type="text" [(ngModel)]="career.name" id="name" name="name" class="form-control">
+							</td>
+							<td>
+								<app-loading-button [object]="buttonEdit" (clicked)="editCareer(career)"
+									[disabled]="!career.careerId || !career.name"></app-loading-button>
+								<app-loading-button [object]="buttonQuiteEdit" (clicked)="careerId = null; getAllCareers()"
+									*ngIf="!buttonEdit.loading"></app-loading-button>
+							</td>
+						</ng-container>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

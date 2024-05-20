@@ -1,11 +1,13 @@
 <div class="nav-container">
 	<div class="container">
 		<div class="box-out">
-			<div class="book books-1" [class.selected]="selected == 1" (click)="selected = 1">
-				<p class="text-warning">
-					<i class="fa fa-book"></i>Libros
-				</p>
-			</div>
+			<a routerLink="/library/catalog" class="nav-link">
+				<div class="book books-1" [class.selected]="selected == 1" (click)="selected = 1">
+					<p class="text-warning">
+						<i class="fa fa-book"></i>Books
+					</p>
+				</div>
+			</a>
 			<div class="book books-2" [class.selected]="selected == 2" (click)="selected = 2">
 				<p class="text-warning">
 					<i class="fa-solid fa-hourglass-half"></i> Préstamos
@@ -13,14 +15,24 @@
 			</div>
 			<div class="book books-3" [class.selected]="selected == 3" (click)="selected = 3">
 				<p class="text-warning">
+
 					<i class="fa-solid fa-calendar-days"></i> Reservas
 				</p>
 			</div>
-			<div class="book books-4" [class.selected]="selected == 4" (click)="selected = 4">
-				<p class="text-warning">
-					<i class="fa-solid fa-calendar-days"></i> Reservas
-				</p>
-			</div>
+			<a routerLink="/library/students" class="nav-link">
+				<div class="book books-4" [class.selected]="selected == 4" (click)="selected = 4">
+					<p class="text-warning">
+						<i class="fa-solid fa-users"></i> Students
+					</p>
+				</div>
+			</a>
+			<a routerLink="/library/careers" class="nav-link">
+				<div class="book books-4" [class.selected]="selected == 5" (click)="selected = 5">
+					<p class="text-warning">
+						<i class="fa-solid fa-graduation-cap"></i> Careers
+					</p>
+				</div>
+			</a>
 		</div>
 	</div>
 </div>

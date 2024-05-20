@@ -1,0 +1,23 @@
+<div class="container-idle">
+	<div class="modal" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1>{{title}}</h1>
+					<h1 style="left: 0;" class="clickable text-danger"><i class="fa fa-xmark" (click)="close.emit(null)"></i></h1>
+				</div>
+				<div class="modal-body">
+					<div class="fields-section">
+						<ng-content select="[fields]"></ng-content>
+					</div>
+					<p *ngIf="showRequired" style="text-align: right;">Rellena los campos marcados con <i class="fa fa-asterisk text-danger"></i></p>
+				</div>
+				<div class="modal-footer">
+					<div class="buttons-section">
+						<ng-content select="[buttons]"></ng-content>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

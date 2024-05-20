@@ -1,0 +1,9 @@
+<button class="btn {{object.button_class}}" [disabled]="disabled || object.loading" (click)="clicked.emit(true)">
+	<ng-container *ngIf="!object.loading">
+		<i class="fa {{object.icon}}"></i>
+	</ng-container>
+	<ng-container *ngIf="object.loading">
+		<span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+		<span role="status"></span>
+	</ng-container>{{object.message}}
+</button>

@@ -1,0 +1,46 @@
+<div class="card m-5">
+	<div class="card-header">
+		<h1>STUDENTS</h1>
+	</div>
+	<div class="card-body">
+		<div class="row">
+			<div class="col-sm-8 form-group">
+				<label for="search" class="form-label">Search</label>
+				<input type="text" (input)="search()" placeholder="Search by license or name" [(ngModel)]="searchWord" class="form-control">
+			</div>
+			<div class="col-sm-4 form-group">
+				<label for="career" class="form-label">Career</label>
+				<div class="input-group">
+					<select name="career" id="career" class="form-select">
+						<option value="undefined">TODAS</option>
+						<option *ngFor="let career of careers" value="{{career.careerId}}">{{career.careerId}} - {{career.name}}</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="table-responsive">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Has user</th>
+						<th>License</th>
+						<th>Name</th>
+						<th>Career</th>
+						<th>Birthday</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let student of students">
+						<td>{{student.userLibrary?'YES':'NO'}}</td>
+						<td>{{student.license}}</td>
+						<td>{{student.name}}</td>
+						<td>{{student.career.name}}</td>
+						<td>{{student.birthday}}</td>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
