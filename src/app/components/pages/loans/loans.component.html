@@ -1,0 +1,113 @@
+<div class="card m-5">
+	<div class="card-header">
+		<h1>LOANS <i (click)="createLoanModal()" appCheckRole [roles]="[role.LIBRARIAN]"
+				class="fa fa-circle-plus text-info clickable"></i></h1>
+	</div>
+	<div class="card-body">
+		<div class="row">
+			<div class="col form-group" appCheckRole [roles]="[role.LIBRARIAN]">
+				<label for="license" class="form-label">Student</label>
+				<div class="input-group">
+					<app-input-autocomplete (select)="studentSelected = $event; search()"
+						[totalElements]="this.students" [filterFunction]="searchStudent" [allBorderRadius]="true"
+						[filterElements]="this.students"
+						(getTitle)="$event.filterElement.title = ($event.filterElement.license!='-1'? $event.filterElement.license + ' ':'')+ '' + $event.filterElement.name"
+						[configuration]="configurationStudents">
+						<ng-template #itemsTemplate let-filter>
+							<!-- This is the content that will be projected -->
+							<div items>
+								<h3>{{filter.license!='-1'? filter.license:'TODOS'}}</h3>
+								<p class="text-muted" *ngIf="filter.license!='-1'">{{filter.name}} </p>
+								<hr style="margin: 0 !important;">
+							</div>
+						</ng-template>
+					</app-input-autocomplete>
+				</div>
+			</div>
+			<div class="col form-group">
+				<label for="startDate" class="form-label">Start date</label>
+				<input type="date" name="startDate" (change)="search()" [(ngModel)]="startDate" id="startDate"
+					class="form-control">
+			</div>
+			<div class="col form-group">
+				<label for="endDate" class="form-label">End date</label>
+				<input type="date" name="endDate" (change)="search()" [(ngModel)]="endDate" id="endDate"
+					class="form-control">
+			</div>
+			<div class="col form-group">
+				<label for="todayDate" class="form-label">Today date</label>
+				<input type="date" name="todayDate" [(ngModel)]="todayDate" id="todayDate" class="form-control">
+			</div>
+		</div>
+		<div class="table-responsive">
+			<table class="table">
+				<thead>
+					<tr class="tr-middle">
+						<th rowspan="2">Student</th>
+						<th rowspan="2">Book</th>
+						<th colspan="3">Dates</th>
+						<th rowspan="2">Status</th>
+					</tr>
+					<tr class="tr-middle">
+						<th>Lend</th>
+						<th>Expected</th>
+						<th>Returned</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="tr-middle" *ngFor="let loan of loans">
+						<td>
+							<h3>{{loan.student.license}}</h3>
+							<p class="text-muted">{{loan.student.name}}</p>
+						</td>
+						<td style="max-width: 200px;">
+							<div class="book">
+								<img src="{{loan.book.frontCover}}" width="50px" alt="">
+								<h3 style="width: 250px;">{{loan.book.isbn}}</h3>
+								<p class="text-muted">{{loan.book.title}}</p>
+							</div>
+						</td>
+						<td>
+							<h4>{{loan.loanDate}}</h4>
+						</td>
+						<td>
+							<h4>{{loan.expectedDate}}</h4>
+						</td>
+						<td>
+							<h4>{{loan.returnDate?loan.returnDate:'NOT YET'}}</h4>
+						</td>
+						<td *ngIf="!loan.returnDate" [class.bg-info]="getDateBefore(loan.expectedDate, todayDate) <= 0"
+							[class.bg-warning]="getDateBefore(loan.expectedDate, todayDate) > 0 && getDateBefore(loan.expectedDate, todayDate) < 30"
+							[class.bg-danger]="getDateBefore(loan.expectedDate, todayDate) > 30">
+							<ng-container *ngIf="getDateBefore(loan.expectedDate, todayDate) > 0">
+								<h3>{{getDateBefore(loan.expectedDate, todayDate)}}
+									<span appCheckRole (click)="showBalance(loan)" [roles]="[role.LIBRARIAN]"
+										class="clickable superposition-container">
+										<i class='fa fa-book-bookmark'></i>
+										<i class="fa fa-rotate-left superposition-element"></i>
+									</span>
+								</h3>
+								<p class="text-muted">days overdue</p>
+
+							</ng-container>
+							<ng-container *ngIf="getDateBefore(loan.expectedDate, todayDate) <= 0">
+								<h3>On time
+									<span appCheckRole (click)="showBalance(loan)" [roles]="[role.LIBRARIAN]"
+										class="clickable superposition-container">
+										<i class='fa fa-book-bookmark'></i>
+										<i class="fa fa-rotate-left superposition-element"></i>
+									</span>
+								</h3>
+							</ng-container>
+						</td>
+						<td *ngIf="loan.returnDate" class="bg-info">
+							<h3><i class="text-success fa fa-circle-check"></i></h3>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<app-create-loan-modal *ngIf="createLoan" [toCreate]="createLoan" (close)="createLoan = null"></app-create-loan-modal>
+<app-balance-modal *ngIf="balance" [balance]="balance" [todayDate]="todayDate" (close)="balance = null; getAllLoansByIntervalDateAndStudent()"></app-balance-modal>

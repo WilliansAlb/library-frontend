@@ -1,0 +1,23 @@
+<div class="autocomplete" id="{{typeElements}}">
+	<input type="text" [ngClass]="allBorderRadius?'border-radius':'no-border-radius'"
+		[class.required]="configuration.required && !configuration.verified" class="form-control input-suggestions"
+		name="{{typeElements}}" id="{{typeElements}}" [(ngModel)]="configuration.value" placeholder="{{placeholder}}"
+		(input)="handleInput($event)" (click)="focusInput($event)" autocomplete="off" [disabled]="ruleToDisabled">
+	<div class="suggestions" id="{{typeElements+'-suggestions'}}">
+		<ng-container *ngFor="let filter of filterElements">
+			<div class="suggestions-item" (click)="changeStatusInput(filter)">
+				<span style="display: none;">{{getTitleData(filter)}}</span>
+				<ng-container *ngTemplateOutlet="itemsTemplate; context: { $implicit: filter }"></ng-container>
+			</div>
+		</ng-container>
+		<ng-container *ngIf="filterElements.length == 0 && configuration.create">
+			<div class="suggestions-item" (click)="create.emit()">
+				Crear...</div>
+		</ng-container>
+	</div>
+	<span class="input-status" [class.text-info]="configuration.icon.includes('list')"
+		[class.text-danger]="configuration.icon.includes('xmark') || configuration.icon.includes('asterisk')"
+		[class.text-success]="configuration.icon.includes('check')">
+		<i id="{{typeElements}}" class="fa {{configuration.icon}}"></i>
+	</span>
+</div>

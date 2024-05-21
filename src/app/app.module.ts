@@ -18,6 +18,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StudentsComponent } from './components/pages/students/students.component';
 import { CareersComponent } from './components/pages/careers/careers.component';
 import { InvitationComponent } from './components/pages/invitation/invitation.component';
+import { QrcodeComponent } from './components/elements/qrcode/qrcode.component';
+import { QrModalComponent } from './components/modals/qr-modal/qr-modal.component';
+import { LoansComponent } from './components/pages/loans/loans.component';
+import { InputAutocompleteComponent } from './components/elements/input-autocomplete/input-autocomplete.component';
+import { CreateLoanModalComponent } from './components/modals/create-loan-modal/create-loan-modal.component';
+import { ResultLoanModalComponent } from './components/modals/result-loan-modal/result-loan-modal.component';
+import { BalanceModalComponent } from './components/modals/balance-modal/balance-modal.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +38,14 @@ import { InvitationComponent } from './components/pages/invitation/invitation.co
     CheckRoleDirective,
     StudentsComponent,
     CareersComponent,
-    InvitationComponent
+    InvitationComponent,
+    QrcodeComponent,
+    QrModalComponent,
+    LoansComponent,
+    InputAutocompleteComponent,
+    CreateLoanModalComponent,
+    ResultLoanModalComponent,
+    BalanceModalComponent
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,6 @@
 <div class="container-idle">
 	<div class="modal" tabindex="-1">
-		<div class="modal-dialog">
+		<div class="modal-dialog" [style]="maxWidth?'max-width: '+maxWidth+'% !important;'+'width: '+maxWidth+'% !important;':''">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h1>{{title}}</h1>

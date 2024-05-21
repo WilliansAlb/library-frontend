@@ -718,13 +718,3 @@ figcaption p {
 		font-size: 90%;
 	}
 }
-
-.card {
-	/* From https://css.glass */
-	background: rgba(230, 210, 183, 0.45);
-	border-radius: 16px;
-	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-	backdrop-filter: blur(2.7px);
-	-webkit-backdrop-filter: blur(2.7px);
-	border: 1px solid rgba(230, 210, 183, 0.47);
-}

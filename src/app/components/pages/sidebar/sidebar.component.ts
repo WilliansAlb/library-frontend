@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { RoleEnum } from 'src/app/enums/role.enum';
 declare let $: any;
 
 @Component({
@@ -9,6 +10,7 @@ declare let $: any;
 })
 export class SidebarComponent implements OnInit {
   selected: number;
+  role = RoleEnum;
 
   constructor(private router: Router) { }
 

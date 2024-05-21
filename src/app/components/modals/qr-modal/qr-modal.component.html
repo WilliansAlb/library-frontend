@@ -1,0 +1,11 @@
+<app-simple-modal [title]="'INVITATION'" [showRequired]="false" (close)="close.emit($event)">
+	<div fields style="    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;">
+		<app-qrcode [qrData]="URL_BACK+'/invitation/'+license"></app-qrcode>
+	</div>
+	<div buttons>
+	</div>
+</app-simple-modal>

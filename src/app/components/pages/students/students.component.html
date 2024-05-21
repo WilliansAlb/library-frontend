@@ -1,19 +1,21 @@
 <div class="card m-5">
 	<div class="card-header">
-		<h1>STUDENTS</h1>
+		<h1>STUDENTS <i (click)="showCreate()" class="clickable text-info fa fa-circle-plus"></i></h1>
 	</div>
 	<div class="card-body">
 		<div class="row">
 			<div class="col-sm-8 form-group">
 				<label for="search" class="form-label">Search</label>
-				<input type="text" (input)="search()" placeholder="Search by license or name" [(ngModel)]="searchWord" class="form-control">
+				<input type="text" (input)="search()" placeholder="Search by license or name" [(ngModel)]="searchWord"
+					class="form-control">
 			</div>
 			<div class="col-sm-4 form-group">
 				<label for="career" class="form-label">Career</label>
 				<div class="input-group">
-					<select name="career" id="career" class="form-select">
-						<option value="undefined">TODAS</option>
-						<option *ngFor="let career of careers" value="{{career.careerId}}">{{career.careerId}} - {{career.name}}</option>
+					<select name="career" id="career" (change)="search()" [(ngModel)]="careerId" class="form-select">
+						<option value="0">TODAS</option>
+						<option *ngFor="let career of careers" value="{{career.careerId}}">{{career.careerId}} -
+							{{career.name}}</option>
 					</select>
 				</div>
 			</div>
@@ -31,8 +33,47 @@
 					</tr>
 				</thead>
 				<tbody>
+					<tr *ngIf="newStudent">
+						<td class="bg-info" colspan="2">
+							<div class="input-group">
+								<input type="number" placeholder="Set license" min="111111111" max="999999999"
+									[(ngModel)]="newStudent.license" id="license" name="license" class="form-control">
+							</div>
+						</td>
+						<td class="bg-info">
+							<div class="input-group">
+								<input type="text" placeholder="Set student name" [(ngModel)]="newStudent.name"
+									id="name" name="name" class="form-control">
+							</div>
+						</td>
+						<td class="bg-info">
+							<div class="input-group">
+								<select name="career" class="form-select" [(ngModel)]="newStudent.career.careerId"
+									id="career">
+									<option value="undefined">Select a career</option>
+									<option *ngFor="let career of careers" value="{{career.careerId}}">
+										{{career.careerId}} - {{career.name}}</option>
+								</select>
+							</div>
+						</td>
+						<td class="bg-info">
+							<div class="input-group">
+								<input type="date" [(ngModel)]="newStudent.birthday" id="birthday" name="birthday"
+									class="form-control">
+							</div>
+						</td>
+						<td class="bg-info td-middle">
+							<app-loading-button [object]="buttonSave" (clicked)="saveStudent()" [disabled]="!newStudent.birthday || !newStudent.name || !newStudent.career.careerId
+								|| !newStudent.license"></app-loading-button>
+							<app-loading-button [object]="buttonQuite" (clicked)="newStudent = null"
+								*ngIf="!buttonSave.loading"></app-loading-button>
+						</td>
+					</tr>
 					<tr *ngFor="let student of students">
-						<td>{{student.userLibrary?'YES':'NO'}}</td>
+						<td>{{student.userLibrary?'YES':'NO'}}
+							<i *ngIf="!student.userLibrary" (click)="studentQr = student.license"
+								class="text-info clickable fa-solid fa-qrcode"></i>
+						</td>
 						<td>{{student.license}}</td>
 						<td>{{student.name}}</td>
 						<td>{{student.career.name}}</td>
@@ -44,3 +85,4 @@
 		</div>
 	</div>
 </div>
+<app-qr-modal *ngIf="studentQr" [license]="studentQr" (close)="studentQr = null"></app-qr-modal>

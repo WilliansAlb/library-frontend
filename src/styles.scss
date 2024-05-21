@@ -42,7 +42,36 @@ input {
 	text-align: center;
 }
 
-.tr-middle td {
+.tr-middle td, .tr-middle th {
 	vertical-align: middle;
 	text-align: center;
+}
+
+app-input-autocomplete {
+	position: relative;
+	flex: 1 1 auto;
+	width: 1%;
+}
+
+
+.suggestions {
+	position: absolute;
+	max-height: 250px;
+	overflow-y: auto;
+	width: 100%;
+	z-index: 10000;
+	background-color: white;
+}
+
+.suggestions-item {
+	padding: 8px;
+	cursor: pointer;
+	background-color: white;
+	color: black;
+	font-size: 0.8em;
+}
+
+.suggestions-item:hover {
+	background-color: skyblue;
+	color: white;
 }

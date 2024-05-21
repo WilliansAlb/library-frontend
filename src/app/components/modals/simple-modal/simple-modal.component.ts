@@ -9,5 +9,6 @@ export class SimpleModalComponent {
   @Input() title: string = "";
   @Output() close = new EventEmitter<any>();
   @Input() showRequired: boolean = true;
+  @Input() maxWidth = null;
 }
 

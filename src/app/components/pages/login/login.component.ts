@@ -1,9 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { RoleEnum } from 'src/app/enums/role.enum';
 import { AuthRequest, AuthResponse } from 'src/app/models/auth.model';
+import { StudentResponse } from 'src/app/models/student.model';
 import { AuthService } from 'src/app/services/auth.service';
+import { UserService } from 'src/app/services/user.service';
 declare let $: any
 
 @Component({
@@ -17,7 +20,9 @@ export class LoginComponent {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private userService: UserService,
+    private router: Router,
+    private toastService: ToastrService
   ) {
 
   }
@@ -36,8 +41,19 @@ export class LoginComponent {
       next: (response: AuthResponse) => {
         this.authService.setToken(response.token);
         const roles = this.authService.getRoles();
-        if (roles[RoleEnum.LIBRARIAN] || roles[RoleEnum.STUDENT]) {
+        const username = this.authService.getUsername();
+        if (roles[RoleEnum.LIBRARIAN]) {
           void this.router.navigate(['/library/catalog']);
+        } else if (roles[RoleEnum.STUDENT]) {
+          this.userService.findStudentByUsername(username).subscribe({
+            next: (response: StudentResponse) => {
+              this.authService.setStudent(response);
+              void this.router.navigate(['/library/catalog']);
+            },
+            error: (error: HttpErrorResponse) => {
+              this.toastService.error(error.error);
+            }
+          })
         } else {
           this.authService.logout();
         }

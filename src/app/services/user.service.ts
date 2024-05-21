@@ -14,7 +14,15 @@ export class UserService {
   constructor(private http: HttpClient) {
   }
 
-  createUserStudent(creationRequest: CreationRequest){
-	return this.http.post(this.URL + "/student", creationRequest);
+  createUserStudent(creationRequest: CreationRequest) {
+    return this.http.post(this.URL + "/student", creationRequest);
+  }
+
+  findStudentByUsername(username: string) {
+    return this.http.get(this.URL + "/student", {
+      params: {
+        username: username
+      }
+    })
   }
 }

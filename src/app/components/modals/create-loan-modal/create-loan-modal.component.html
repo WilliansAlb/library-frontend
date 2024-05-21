@@ -1,0 +1,88 @@
+<app-simple-modal [title]="'LOAN'" (close)="close.emit($event)"  [maxWidth]="90">
+	<div fields>
+		<h3 class="text-center">Loan data</h3>
+		<div class="row">
+			<div class="col form-group">
+				<label for="student" class="form-label">Student <i class="fa fa-asterisk text-danger"></i></label>
+				<div class="input-group">
+					<app-input-autocomplete (select)="toCreate.student = $event" [totalElements]="this.students" [filterFunction]="searchStudent" [allBorderRadius]="true"
+						[filterElements]="this.students" (getTitle)="$event.filterElement.title = $event.filterElement.license + ' ' + $event.filterElement.name" [configuration]="configurationStudents">
+						<ng-template #itemsTemplate let-filter>
+							<!-- This is the content that will be projected -->
+							<div items>
+								<h3>{{filter.license}}</h3>
+								<p class="text-muted">{{filter.name}} </p>
+								<hr style="margin: 0 !important;">
+							</div>
+						</ng-template>
+					</app-input-autocomplete>
+				</div>
+			</div>
+			<div class="col form-group">
+				<label for="loanDate" class="form-label">Loan date  <i class="fa fa-asterisk text-danger"></i></label>
+				<input type="date" name="loanDate" id="loanDate" [(ngModel)]="toCreate.loanDate" class="form-control">
+			</div>
+			<div class="col form-group">
+				<label for="expectedDate" class="form-label">Expected date</label>
+				<input type="date" name="expectedDate" id="expectedDate" [(ngModel)]="toCreate.expectedDate" class="form-control">
+			</div>
+		</div>
+		<h3 class="text-center">Loan books</h3>
+		<div class="form-group">
+			<label for="book" class="form-label">Book  <i class="fa fa-asterisk text-danger"></i></label>
+			<div class="input-group">
+				<app-input-autocomplete [ruleToDisabled]="toCreate.bookList.length >= 3" (select)="bookSelected = $event " [totalElements]="this.books" [filterFunction]="searchBook" [allBorderRadius]="true"
+					[filterElements]="this.books" [configuration]="configurationBooks">
+					<ng-template #itemsTemplate let-filter>
+						<!-- This is the content that will be projected -->
+						<div items style="padding: 5px;">
+							<div class="row">
+								<div class="col-sm-2" style="display: flex; justify-content: center; align-items: center;">
+									<img src="{{filter.frontCover}}" width="40px" alt="">
+								</div>
+								<div class="col-sm-10">
+									<h3>{{filter.title}}</h3>
+									<hr>
+									<p class="text-muted">{{filter.author}} <i class="fa fa-calendar"></i>
+										{{filter.published}} <i class="fa fa-copy"></i>{{filter.availableCopies}}</p>
+								</div>
+							</div>
+						</div>
+					</ng-template>
+				</app-input-autocomplete>
+				<button class="btn btn-info" [disabled]="!bookSelected" (click)="addToBookList()"><i class="fa fa-circle-plus"></i></button>
+			</div>
+		</div>
+		<div class="table-responsive">
+			<table class="table">
+				<thead>
+					<tr class="tr-middle">
+						<th>Cover</th>
+						<th>ISBN</th>
+						<th>Title</th>
+						<th>Author</th>
+						<th>Publisher</th>
+						<th>Published</th>
+						<th>Available Copies</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="tr-middle" *ngFor="let book of toCreate.bookList">
+						<td><img src="{{book.frontCover}}" width="50px" alt=""></td>
+						<td>{{book.isbn}}</td>
+						<td>{{book.title}}</td>
+						<td>{{book.author}}</td>
+						<td>{{book.publisher}}</td>
+						<td>{{book.published}}</td>
+						<td>{{book.availableCopies}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div buttons>
+		<app-loading-button [object]="buttonSave" (clicked)="saveLoan()" [disabled]="!toCreate.student || !toCreate.loanDate || toCreate.bookList.length == 0"></app-loading-button>
+	</div>
+</app-simple-modal>
+<app-result-loan-modal *ngIf="response.length > 0" [response]="response" (close)="close.emit(null)"></app-result-loan-modal>

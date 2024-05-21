@@ -6,18 +6,45 @@ import { CatalogComponent } from './components/pages/catalog/catalog.component';
 import { StudentsComponent } from './components/pages/students/students.component';
 import { CareersComponent } from './components/pages/careers/careers.component';
 import { InvitationComponent } from './components/pages/invitation/invitation.component';
+import { LoansComponent } from './components/pages/loans/loans.component';
+import { authGuard } from './security/auth.guard';
+import { RoleEnum } from './enums/role.enum';
 
 const routes: Routes = [{
-  path: '', component: LoginComponent
+  path: '', redirectTo: 'library/catalog', pathMatch: 'full'
 },
 {
   path: 'library', component: SidebarComponent, children: [
-    { path: 'catalog', component: CatalogComponent },
-    { path: 'students', component: StudentsComponent },
-    { path: 'careers', component: CareersComponent }
+    {
+      path: 'catalog',
+      component: CatalogComponent,
+      canActivate: [authGuard],
+      data: { roles: [RoleEnum.LIBRARIAN, RoleEnum.STUDENT] }
+    },
+    {
+      path: 'students',
+      component: StudentsComponent,
+      canActivate: [authGuard],
+      data: { roles: [RoleEnum.LIBRARIAN] }
+    },
+    {
+      path: 'careers',
+      component: CareersComponent,
+      canActivate: [authGuard],
+      data: { roles: [RoleEnum.LIBRARIAN] }
+    },
+    {
+      path: 'loans',
+      component: LoansComponent,
+      canActivate: [authGuard],
+      data: { roles: [RoleEnum.LIBRARIAN, RoleEnum.STUDENT] }
+    }
   ]
 }, {
   path: 'invitation/:license', component: InvitationComponent, pathMatch: 'full'
+}, {
+  path: 'login', component: LoginComponent,
+  canActivate: [authGuard]
 }];
 
 @NgModule({

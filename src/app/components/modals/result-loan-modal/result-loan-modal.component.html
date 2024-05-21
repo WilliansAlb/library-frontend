@@ -1,0 +1,22 @@
+<app-simple-modal [title]="'RESULT'" [showRequired]="false" (close)="close.emit($event)">
+	<div fields>
+		<div class="table-responsive">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Book</th>
+						<th>Lend</th>
+						<th>Reason for not lend</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let res of response">
+						<td>{{res.toLoan.title}}</td>
+						<td>{{res.lended?'YES':'NO'}}</td>
+						<td>{{res.reasonForNotLend}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</app-simple-modal>

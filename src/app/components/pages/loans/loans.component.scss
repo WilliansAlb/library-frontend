@@ -1,0 +1,20 @@
+.book {
+	display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.superposition-container {
+	position: relative;
+}
+
+.superposition-element {
+	position:absolute;
+	top: 30%;
+	left: 20%;
+	transform: scale(0.7);
+	color: white;
+	backdrop-filter: drop-shadow(1px 2px 3px solid black);
+}
