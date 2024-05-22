@@ -25,6 +25,10 @@ import { InputAutocompleteComponent } from './components/elements/input-autocomp
 import { CreateLoanModalComponent } from './components/modals/create-loan-modal/create-loan-modal.component';
 import { ResultLoanModalComponent } from './components/modals/result-loan-modal/result-loan-modal.component';
 import { BalanceModalComponent } from './components/modals/balance-modal/balance-modal.component';
+import { BookingComponent } from './components/pages/booking/booking.component';
+import { BookingModalComponent } from './components/modals/booking-modal/booking-modal.component';
+import { ReportsComponent } from './components/pages/reports/reports.component';
+import { LogoutModalComponent } from './components/modals/logout-modal/logout-modal.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +49,11 @@ import { BalanceModalComponent } from './components/modals/balance-modal/balance
     InputAutocompleteComponent,
     CreateLoanModalComponent,
     ResultLoanModalComponent,
-    BalanceModalComponent
+    BalanceModalComponent,
+    BookingComponent,
+    BookingModalComponent,
+    ReportsComponent,
+    LogoutModalComponent
   ],
   imports: [
     BrowserModule,

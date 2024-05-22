@@ -1,0 +1,715 @@
+<div class="card m-5">
+	<div class="card-header">
+		<h1>REPORTS</h1>
+	</div>
+	<div class="card-body">
+		<div class="form-group">
+			<label for="report" class="form-label">REPORT</label>
+			<select name="report" id="report" [(ngModel)]="report" (change)="changeReport()" class="form-select">
+				<option value="1">Loans for today</option>
+				<option value="2">Overdue Loans</option>
+				<option value="3">Balance</option>
+				<option value="4">Career with more loans</option>
+				<option value="5">Money paid by Student</option>
+				<option value="6">Student with more loans</option>
+				<option value="7">Books currently lended</option>
+				<option value="8">Books without available copies</option>
+				<option value="9">Books never lended</option>
+				<option value="10">Sanction student</option>
+			</select>
+		</div>
+		<div class="report1 m-3" [hidden]="report!='1'">
+			<h4>Report for <em>Listado de préstamos de libros que deben ser entregados el día actual</em></h4>
+			<div class="form-group">
+				<label for="todayDate" class="form-label">Today date</label>
+				<input type="date" name="todayDate" id="todayDate" (change)="loansForToday()" [(ngModel)]="todayDate"
+					class="form-control">
+			</div>
+			<div class="table-responsive">
+				<table class="table">
+					<thead>
+						<tr class="tr-middle">
+							<th>Cover</th>
+							<th>ISBN</th>
+							<th>Title</th>
+							<th>Author</th>
+							<th>Publisher</th>
+							<th>Published</th>
+							<th>Student</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="tr-middle" *ngFor="let item1 of report1">
+							<td>
+								<img src="{{item1.book.frontCover}}" width="50px" alt="">
+							</td>
+							<td>{{item1.book.isbn}}</td>
+							<td>{{item1.book.title}}</td>
+							<td>{{item1.book.author}}</td>
+							<td>{{item1.book.publisher}}</td>
+							<td>{{item1.book.published}}</td>
+							<td>{{item1.student.license + " " +item1.student.name}}</td>
+						</tr>
+						<tr class="tr-middle" *ngIf="report1.length == 0">
+							<td colspan="7" class=" text-info">
+								<span class="display-5"><i class="fa fa-circle-info"></i> There's no result for this
+									report</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="report2 m-3" [hidden]="report!='2'">
+			<h4>Report for <em>Listado de préstamos de libros que están en mora</em></h4>
+			<div class="form-group">
+				<label for="todayDate" class="form-label">Today date</label>
+				<input type="date" name="todayDate" id="todayDate" (change)="overdueLoans()" [(ngModel)]="todayDate"
+					class="form-control">
+			</div>
+			<div class="table-responsive">
+				<table class="table">
+					<thead>
+						<tr class="tr-middle">
+							<th rowspan="2">Student</th>
+							<th rowspan="2">Book</th>
+							<th colspan="2">Dates</th>
+							<th rowspan="2">Overdue Days</th>
+						</tr>
+						<tr class="tr-middle">
+							<th>Lend</th>
+							<th>Expected</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="tr-middle" *ngFor="let item1 of report2">
+							<td>
+								<h1>{{item1.student.license}}</h1>
+								{{item1.student.name}}
+							</td>
+							<td>
+								<div class="row">
+									<div class="col-sm-2"><img src="{{item1.book.frontCover}}" width="30px" alt="">
+									</div>
+									<div class="col-sm-10">
+										<h3>{{item1.book.isbn}}</h3>
+										{{item1.book.title}}
+									</div>
+								</div>
+							</td>
+							<td>
+								<h5>{{item1.loanDate}}</h5>
+							</td>
+							<td>
+								<h5>{{item1.expectedDate}}</h5>
+							</td>
+							<td>
+								<h1>{{getDateBefore(item1.expectedDate, todayDate)}}</h1>
+							</td>
+						</tr>
+						<tr class="tr-middle" *ngIf="report2.length == 0">
+							<td colspan="7" class=" text-info">
+								<span class="display-5"><i class="fa fa-circle-info"></i> There's no result for this
+									report</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="report3 m-3" [hidden]="report!='3'">
+			<h4>Report for <em>Total de dinero recaudado en un intervalo de tiempo, incluyendo un listado con los
+					préstamos
+					realizados en ese intervalo de tiempo.</em></h4>
+			<div class="row">
+				<div class="col form-group">
+					<label for="startDate" class="form-label">Start date</label>
+					<input type="date" name="startDate" id="startDate" (change)="balance()" [(ngModel)]="startDate"
+						class="form-control">
+				</div>
+				<div class="col form-group">
+					<label for="endDate" class="form-label">End date</label>
+					<input type="date" name="endDate" id="endDate" (change)="balance()" [(ngModel)]="endDate"
+						class="form-control">
+				</div>
+			</div>
+			<div class="table-responsive">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th colspan="8" style="padding: 0 5em;">
+								<table class="table">
+									<thead>
+										<tr class="tr-middle">
+											<th colspan="3">TOTALS</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr class="tr-middle">
+											<td>
+												<h1>{{(report3?.totalNormal + report3?.totalLate) | currency: 'Q'}}</h1>
+												<p class="text-muted">TOTAL</p>
+											</td>
+											<td>
+												<h2>{{(report3?.totalNormal) | currency: 'Q'}}</h2>
+												<p class="text-muted">NORMAL</p>
+											</td>
+											<td>
+												<h2>{{(report3?.totalLate) | currency: 'Q'}}</h2>
+												<p class="text-muted">LATE</p>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</th>
+						</tr>
+						<tr class="tr-middle">
+							<th rowspan="2">Student</th>
+							<th rowspan="2">Book</th>
+							<th colspan="3">Dates</th>
+							<th colspan="2">Payments</th>
+						</tr>
+						<tr class="tr-middle">
+							<th>Lend</th>
+							<th>Expected</th>
+							<th>Returned</th>
+							<th>Normal</th>
+							<th>Late</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="tr-middle" *ngFor="let item1 of report3?.loanList">
+							<td>
+								<h1>{{item1.student.license}}</h1>
+								{{item1.student.name}}
+							</td>
+							<td>
+								<div class="row">
+									<div class="col-sm-2"><img src="{{item1.book.frontCover}}" width="30px" alt="">
+									</div>
+									<div class="col-sm-10">
+										<h3>{{item1.book.isbn}}</h3>
+										{{item1.book.title}}
+									</div>
+								</div>
+							</td>
+							<td>
+								<h5>{{item1.loanDate}}</h5>
+							</td>
+							<td>
+								<h5>{{item1.expectedDate}}</h5>
+							</td>
+							<ng-container *ngIf="item1.returnDate">
+								<td>
+									<h5>{{item1.returnDate}}</h5>
+								</td>
+								<td>
+									<h4>{{item1.loanPayment | currency: 'Q'}}</h4>
+								</td>
+								<td>
+									<h4>{{item1.latePayment | currency: 'Q'}}</h4>
+								</td>
+							</ng-container>
+							<ng-container *ngIf="!item1.returnDate">
+								<td colspan="3">
+									<h1>---</h1>
+								</td>
+							</ng-container>
+						</tr>
+						<tr class="tr-middle" *ngIf="report3?.loanList.length == 0">
+							<td colspan="8" class=" text-info">
+								<span class="display-5"><i class="fa fa-circle-info"></i> There's no result for this
+									report</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="report4 m-3" [hidden]="report!='4'">
+			<h4>Report for <em>Reporte indicando cuál es la carrera que tiene más registros de préstamos en un intervalo
+					de
+					tiempo, indicando un listado con los préstamos de estudiantes de esa carrera.</em></h4>
+			<div class="row">
+				<div class="col form-group">
+					<label for="startDate" class="form-label">Start date</label>
+					<input type="date" name="startDate" id="startDate" (change)="topCareer()" [(ngModel)]="startDate"
+						class="form-control">
+				</div>
+				<div class="col form-group">
+					<label for="endDate" class="form-label">End date</label>
+					<input type="date" name="endDate" id="endDate" (change)="topCareer()" [(ngModel)]="endDate"
+						class="form-control">
+				</div>
+			</div>
+			<div class="table-responsive">
+				<table class="table">
+					<thead>
+						<tr>
+							<th colspan="8" style="padding: 0 5em;">
+								<table class="table">
+									<thead>
+										<tr class="tr-middle">
+											<th colspan="3">CAREER</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr class="tr-middle">
+											<td>
+												<h1>{{report4?.career.careerId}}</h1>
+												<p class="text-muted">CODIGO</p>
+											</td>
+											<td>
+												<h2>{{report4?.career.name}}</h2>
+												<p class="text-muted">NAME</p>
+											</td>
+											<td>
+												<h2>{{report4?.count}}</h2>
+												<p class="text-muted">COUNT</p>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</th>
+						</tr>
+						<tr class="tr-middle">
+							<th>Student</th>
+							<th>Book</th>
+							<th>Career</th>
+							<th>Lend Date</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="tr-middle" *ngFor="let item1 of report4?.loanList">
+							<td>
+								<h1>{{item1.student.license}}</h1>
+								{{item1.student.name}}
+							</td>
+							<td>
+								<div class="row">
+									<div class="col-sm-2"><img src="{{item1.book.frontCover}}" width="30px" alt="">
+									</div>
+									<div class="col-sm-10">
+										<h3>{{item1.book.isbn}}</h3>
+										{{item1.book.title}}
+									</div>
+								</div>
+							</td>
+							<td>
+								<h5>{{item1.student.career.name}}</h5>
+							</td>
+							<td>
+								<h5>{{item1.loanDate}}</h5>
+							</td>
+						</tr>
+						<tr class="tr-middle" *ngIf="report4?.loanList.length == 0">
+							<td colspan="7" class=" text-info">
+								<span class="display-5"><i class="fa fa-circle-info"></i> There's no result for this
+									report</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="report5 m-3" [hidden]="report!='5'">
+			<h4>Report for <em>Listado de las moras que un estudiante ha pagado en un intervalo de tiempo, incluyendo un
+					listado con los préstamos morosos</em></h4>
+			<div class="row">
+				<div class="col form-group">
+					<label for="student" class="form-label">Student <i class="fa fa-asterisk text-danger"></i></label>
+					<div class="input-group">
+						<app-input-autocomplete [placeholder]="'Search a student'"
+							(select)="selectedStudent = $event; loansByStudent()" [totalElements]="this.students"
+							[filterFunction]="searchStudent" [allBorderRadius]="true" [filterElements]="this.students"
+							(getTitle)="$event.filterElement.title = $event.filterElement.license + ' ' + $event.filterElement.name"
+							[configuration]="configurationStudents">
+							<ng-template #itemsTemplate let-filter>
+								<!-- This is the content that will be projected -->
+								<div items>
+									<h3>{{filter.license}}</h3>
+									<p class="text-muted">{{filter.name}} </p>
+									<hr style="margin: 0 !important;">
+								</div>
+							</ng-template>
+						</app-input-autocomplete>
+					</div>
+				</div>
+				<div class="col form-group">
+					<label for="startDate" class="form-label">Start date</label>
+					<input type="date" name="startDate" id="startDate" (change)="loansByStudent()"
+						[(ngModel)]="startDate" class="form-control">
+				</div>
+				<div class="col form-group">
+					<label for="endDate" class="form-label">End date</label>
+					<input type="date" name="endDate" id="endDate" (change)="loansByStudent()" [(ngModel)]="endDate"
+						class="form-control">
+				</div>
+			</div>
+			<div class="table-responsive" *ngIf="report5">
+				<table class="table">
+					<thead>
+						<tr>
+							<th colspan="5" style="padding: 0 5em;">
+								<table class="table">
+									<thead>
+										<tr class="tr-middle">
+											<th colspan="2">ARREARS</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr class="tr-middle">
+											<td>
+												<h1>{{ report5?.totalLate | currency: 'Q'}}</h1>
+												<p class="text-muted">LATE</p>
+											</td>
+											<td>
+												<h2>{{ report5?.totalSanction | currency: 'Q'}}</h2>
+												<p class="text-muted">SANCTION</p>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</th>
+						</tr>
+						<tr class="tr-middle">
+							<th rowspan="2">Student</th>
+							<th rowspan="2">Book</th>
+							<th rowspan="2">Returned Day</th>
+							<th colspan="2">Payments</th>
+						</tr>
+						<tr class="tr-middle">
+							<th>Late</th>
+							<th>Sanction</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="tr-middle" *ngFor="let item1 of report5?.payments">
+							<td>
+								<h1>{{item1.loan.student.license}}</h1>
+								{{item1.loan.student.name}}
+							</td>
+							<td>
+								<div class="row">
+									<div class="col-sm-2"><img src="{{item1.loan.book.frontCover}}" width="30px" alt="">
+									</div>
+									<div class="col-sm-10">
+										<h3>{{item1.loan.book.isbn}}</h3>
+										{{item1.loan.book.title}}
+									</div>
+								</div>
+							</td>
+							<td>
+								<h5>{{item1.loan.returnDate}}</h5>
+							</td>
+							<td>
+								<h1>{{item1.latePayment | currency: 'Q'}}</h1>
+							</td>
+							<td>
+								<h1>{{item1.sanctionPayment | currency: 'Q'}}</h1>
+							</td>
+						</tr>
+						<tr class="tr-middle" *ngIf="report5?.payments.length == 0">
+							<td colspan="7" class=" text-info">
+								<span class="display-5"><i class="fa fa-circle-info"></i> There's no result for this
+									report</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="report6 m-3" [hidden]="report!='6'">
+			<h4>Report for <em>Estudiante que más préstamos ha realizado en un intervalo de tiempo, incluyendo un
+					listado
+					con todos los préstamos realizados.</em></h4>
+			<div class="row">
+				<div class="col form-group">
+					<label for="startDate" class="form-label">Start date</label>
+					<input type="date" name="startDate" id="startDate" (change)="topStudent()" [(ngModel)]="startDate"
+						class="form-control">
+				</div>
+				<div class="col form-group">
+					<label for="endDate" class="form-label">End date</label>
+					<input type="date" name="endDate" id="endDate" (change)="topStudent()" [(ngModel)]="endDate"
+						class="form-control">
+				</div>
+			</div>
+			<div class="table-responsive">
+				<table class="table">
+					<thead>
+						<tr>
+							<th colspan="8" style="padding: 0 5em;">
+								<table class="table">
+									<thead>
+										<tr class="tr-middle">
+											<th colspan="3">STUDENT</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr class="tr-middle">
+											<td>
+												<h1>{{report6?.student.license}}</h1>
+												<p class="text-muted">LICENSE</p>
+											</td>
+											<td>
+												<h2>{{report6?.student.name}}</h2>
+												<p class="text-muted">NAME</p>
+											</td>
+											<td>
+												<h2>{{report6?.count}}</h2>
+												<p class="text-muted">COUNT</p>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</th>
+						</tr>
+						<tr class="tr-middle">
+							<th>Student</th>
+							<th>Book</th>
+							<th>Lend Date</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="tr-middle" *ngFor="let item1 of report6?.loanList">
+							<td>
+								<h1>{{item1.student.license}}</h1>
+								{{item1.student.name}}
+							</td>
+							<td>
+								<div class="row">
+									<div class="col-sm-2"><img src="{{item1.book.frontCover}}" width="30px" alt="">
+									</div>
+									<div class="col-sm-10">
+										<h3>{{item1.book.isbn}}</h3>
+										{{item1.book.title}}
+									</div>
+								</div>
+							</td>
+							<td>
+								<h5>{{item1.loanDate}}</h5>
+							</td>
+						</tr>
+						<tr class="tr-middle" *ngIf="report4?.loanList.length == 0">
+							<td colspan="7" class=" text-info">
+								<span class="display-5"><i class="fa fa-circle-info"></i> There's no result for this
+									report</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="report7 m-3" [hidden]="report!='7'">
+			<div class="form-group">
+				<label for="student" class="form-label">Student <i class="fa fa-asterisk text-danger"></i></label>
+				<div class="input-group">
+					<app-input-autocomplete [placeholder]="'Search a student'"
+						(select)="selectedStudent = $event; currentlyLendedByStudent()" [totalElements]="this.students"
+						[filterFunction]="searchStudent" [allBorderRadius]="true" [filterElements]="this.students"
+						(getTitle)="$event.filterElement.title = $event.filterElement.license + ' ' + $event.filterElement.name"
+						[configuration]="configurationStudents">
+						<ng-template #itemsTemplate let-filter>
+							<!-- This is the content that will be projected -->
+							<div items>
+								<h3>{{filter.license}}</h3>
+								<p class="text-muted">{{filter.name}} </p>
+								<hr style="margin: 0 !important;">
+							</div>
+						</ng-template>
+					</app-input-autocomplete>
+				</div>
+			</div>
+			<div class="table-responsive">
+				<table class="table">
+					<thead>
+						<tr class="tr-middle">
+							<th>Cover</th>
+							<th>ISBN</th>
+							<th>Title</th>
+							<th>Author</th>
+							<th>Publisher</th>
+							<th>Published</th>
+							<th>Available Copies</th>
+							<th>Expected Return Date</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="tr-middle" *ngFor="let loan of report7">
+							<td><img src="{{loan.book.frontCover}}" width="50px" alt=""></td>
+							<td>{{loan.book.isbn}}</td>
+							<td>{{loan.book.title}}</td>
+							<td>{{loan.book.author}}</td>
+							<td>{{loan.book.publisher}}</td>
+							<td>{{loan.book.published}}</td>
+							<td>{{loan.book.availableCopies}}</td>
+							<td>{{loan.expectedDate}}</td>
+						</tr>
+						<tr class="tr-middle" *ngIf="report7?.length == 0">
+							<td colspan="8" class=" text-info" *ngIf="selectedStudent">
+								<span class="display-5"><i class="fa fa-circle-info"></i> There's no result for this
+									report</span>
+							</td>
+							<td colspan="8" class=" text-info" *ngIf="!selectedStudent">
+								<span class="display-5"><i class="fa fa-circle-info"></i> First, select a student</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="report8 m-3" [hidden]="report!='8'">
+			<h4>Report for <em>Listado de libros cuyas copias están agotadas actualmente</em></h4>
+			<div class="table-responsive">
+				<table class="table">
+					<thead>
+						<tr class="tr-middle">
+							<th>Cover</th>
+							<th>ISBN</th>
+							<th>Title</th>
+							<th>Author</th>
+							<th>Publisher</th>
+							<th>Published</th>
+							<th>Available Copies</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="tr-middle" *ngFor="let book of report8">
+							<td><img src="{{book.frontCover}}" width="50px" alt=""></td>
+							<td>{{book.isbn}}</td>
+							<td>{{book.title}}</td>
+							<td>{{book.author}}</td>
+							<td>{{book.publisher}}</td>
+							<td>{{book.published}}</td>
+							<td>{{book.availableCopies}}</td>
+						</tr>
+						<tr class="tr-middle" *ngIf="report8?.length == 0">
+							<td colspan="7" class=" text-info">
+								<span class="display-5"><i class="fa fa-circle-info"></i> There's no result for this
+									report</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="report9 m-3" [hidden]="report!='9'">
+			<h4>Report for <em>Listado de libros que nunca se han prestado</em></h4>
+			<div class="table-responsive">
+				<table class="table">
+					<thead>
+						<tr class="tr-middle">
+							<th>Cover</th>
+							<th>ISBN</th>
+							<th>Title</th>
+							<th>Author</th>
+							<th>Publisher</th>
+							<th>Published</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="tr-middle" *ngFor="let book of report9">
+							<td><img src="{{book.frontCover}}" width="50px" alt=""></td>
+							<td>{{book.isbn}}</td>
+							<td>{{book.title}}</td>
+							<td>{{book.author}}</td>
+							<td>{{book.publisher}}</td>
+							<td>{{book.published}}</td>
+						</tr>
+						<tr class="tr-middle" *ngIf="report9?.length == 0">
+							<td colspan="8" class=" text-info">
+								<span class="display-5"><i class="fa fa-circle-info"></i> There's no result for this
+									report</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="report10 m-3" [hidden]="report != '10'">
+			<h4>Report for <em>Listado de estudiantes que están en sanción</em></h4>
+			<div class="form-group">
+				<label for="todayDate" class="form-label">Today date</label>
+				<input type="date" name="todayDate" id="todayDate" (change)="loansWithOverdue()" [(ngModel)]="todayDate"
+					class="form-control">
+			</div>
+			<div class="table-responsive">
+				<table class="table">
+					<thead>
+						<tr class="tr-middle">
+							<th>Student</th>
+							<th>Loan Payment</th>
+							<th>Late Payment</th>
+							<th>Sanction</th>
+						</tr>
+					</thead>
+					<tbody>
+						<ng-container *ngFor="let item of report10">
+							<tr class="tr-middle">
+								<td>
+									<h2>{{item.student.license}}</h2>
+									<span>{{item.student.name}}</span>
+								</td>
+								<td>
+									<h3>{{item.totalNormal | currency: 'Q'}}</h3>
+								</td>
+								<td>
+									<h3>{{item.totalLate | currency: 'Q'}}</h3>
+								</td>
+								<td>
+									<h3>{{(item.loans.length * 150) | currency: 'Q'}}</h3>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="4" style="padding: 0 2.5em; background-color: skyblue;">
+									<table class="table">
+										<thead>
+											<tr class="tr-middle">
+												<th rowspan="2">Book</th>
+												<th colspan="2">Dates</th>
+												<th colspan="2">Payments</th>
+												<th rowspan="2">Overdue Days</th>
+											</tr>
+											<tr class="tr-middle">
+												<th>Lend</th>
+												<th>Expected</th>
+												<th>Normal</th>
+												<th>Late</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr class="tr-middle" *ngFor="let loan of item.loans">
+												<td>
+													<img src="{{loan.book.frontCover}}" width="30px" alt="">
+													<h4>{{loan.book.isbn}}</h4>
+													<span>{{loan.book.title}}</span>
+												</td>
+												<td>
+													<h5>{{loan.loanDate}}</h5>
+												</td>
+												<td>
+													<h5>{{loan.expectedDate}}</h5>
+												</td>
+												<td>
+													<h5>{{loan.loanPayment | currency: 'Q'}}</h5>
+												</td>
+												<td>
+													<h5>{{loan.latePayment | currency: 'Q'}}</h5>
+												</td>
+												<td>
+													<h5>{{getDateBefore(loan.expectedDate, todayDate)}}</h5>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</ng-container>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

@@ -11,6 +11,7 @@ declare let $: any;
 export class SidebarComponent implements OnInit {
   selected: number;
   role = RoleEnum;
+  logout = false;
 
   constructor(private router: Router) { }
 
@@ -20,8 +21,11 @@ export class SidebarComponent implements OnInit {
       $(this).addClass('active');
     });
     this.router.events.subscribe(event => {
-      this.updateSelected(event['routerEvent']['url']);
+      if (event instanceof NavigationEnd) {
+        this.updateSelected(event.urlAfterRedirects);
+      }
     });
+    this.updateSelected(this.router.url);
   }
 
   private updateSelected(url: string): void {
@@ -29,12 +33,14 @@ export class SidebarComponent implements OnInit {
       this.selected = 1;
     } else if (url.includes('loans')) {
       this.selected = 2;
-    } else if (url.includes('reservations')) {
+    } else if (url.includes('booking')) {
       this.selected = 3;
     } else if (url.includes('students')) {
       this.selected = 4;
     } else if (url.includes('careers')) {
       this.selected = 5;
+    } else if (url.includes('reports')) {
+      this.selected = 6;
     }
   }
 }

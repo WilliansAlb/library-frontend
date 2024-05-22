@@ -20,18 +20,20 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-end;
-	position: absolute;
-	bottom: 0;
-	padding: 0.1em 1em 0 1em;
+	filter: drop-shadow(2px 4px 6px brown);
+	/**position: absolute;**/
+	position: fixed;
+	bottom: -10px;
+	padding: 0 0.4em 0 1em;
 	background-image: url(../../../../assets/img/wood.png);
 	border-top-left-radius: 15px;
 	border-top-right-radius: 15px;
 }
 
 .book {
-	width: 150px;
-	height: 50px;
-	background-image: url("../../../../assets/img/coverbutton.png");
+	width: 100px;
+	height: 85px;
+	background-image: url("../../../../assets/img/btn_book.png");
 	background-size: cover;
 	display: flex;
 	justify-content: center;
@@ -42,6 +44,31 @@
 	border-top-right-radius: 5px;
 	margin-right: 8px;
 	-webkit-backface-visibility: hidden;
+	overflow: hidden;
+	font-family: 'Cormorant';
+	filter: grayscale(1);
+	opacity: 1;
+}
+
+.book-report {
+	background-image: url("../../../../assets/img/btn_report.png") !important;
+	box-shadow: 1px 3px 2px transparent, 6px 8px 0 transparent !important;
+}
+
+.door{
+	width: 100px;
+	height: 85px;
+	background-image: url("../../../../assets/img/btn_door_closed.jpg");
+	background-size: cover;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transition: all .3s ease-in-out;
+	transform-origin: left center 0px;
+	transform-style: preserve-3d;
+	border-top-right-radius: 5px;
+	transform: translateY(11px);
+	margin-right: 8px;
 	overflow: hidden;
 	font-family: 'Cormorant';
 	filter: grayscale(1);
@@ -77,34 +104,53 @@
 .book:hover {
 	cursor: pointer;
 	transform: rotateY(-28deg) rotateZ(-2deg) scale(1.1) translateY(-10px);
-	height: 70px;
+	height: 85px;
 	-webkit-backface-visibility: hidden;
-	box-shadow: 1px 3px 2px var(--csecondary), 6px 8px 0 var(--ctertiary);
+	box-shadow: 1px 3px 2px beige, 6px 8px 0 beige;
 	opacity: 1;
 	filter: grayscale(0%) !important;
+	/* transform: scale(1.02); */
+}
+
+.door:hover {
+	cursor: pointer;
+	transform: translateY(-10px);
+	height: 85px;
+	-webkit-backface-visibility: hidden;
+	background-image: url("../../../../assets/img/btn_door_open.png");
+	opacity: 1;
+	filter: grayscale(0%) !important;
+	p {
+		transform: rotateY(55deg) translateX(-30px) translateY(7px) translateX(-4px);
+		color: red !important;
+	}
 	/* transform: scale(1.02); */
 }
 
 .selected {
 	cursor: pointer;
 	transform: rotateY(-28deg) rotateZ(-2deg) scale(1.1) translateY(-10px);
-	height: 70px;
+	height: 85px;
 	-webkit-backface-visibility: hidden;
-	box-shadow: 1px 3px 2px var(--csecondary), 6px 8px 0 var(--ctertiary);
+	box-shadow: 1px 3px 2px beige, 6px 8px 0 beige;
 	opacity: 1;
 	filter: grayscale(0%) !important;
 }
 
 .box-out .book:hover::before {
-	transform: translateY(9px) !important;
+	transform: translateY(23px) !important;
 	opacity: 1 !important;
 }
 
 .selected::before {
-	transform: translateY(9px) !important;
+	transform: translateY(23px) !important;
 	opacity: 1 !important;
 }
 
 .book p {
 	color: var(--cyellow) !important;
+}
+
+.nav-link {
+	height: 80px;
 }

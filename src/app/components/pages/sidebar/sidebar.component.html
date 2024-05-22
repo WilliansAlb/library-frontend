@@ -5,39 +5,54 @@
 			<div class="box-out">
 				<a routerLink="/library/catalog" class="nav-link">
 					<div class="book books-1" [class.selected]="selected == 1" (click)="selected = 1">
-						<p class="text-warning">
+						<p class="text-warning title-item">
 							<i class="fa fa-book"></i>Books
 						</p>
 					</div>
 				</a>
 				<a routerLink="/library/loans" class="nav-link">
 					<div class="book books-2" [class.selected]="selected == 2" (click)="selected = 2">
-						<p class="text-warning">
+						<p class="text-warning title-item">
 							<i class="fa-solid fa-hourglass-half"></i> Loans
 						</p>
 					</div>
 				</a>
-				<div class="book books-3" [class.selected]="selected == 3" (click)="selected = 3">
-					<p class="text-warning">
-	
-						<i class="fa-solid fa-calendar-days"></i> Reservas
-					</p>
-				</div>
+				<a routerLink="/library/booking" class="nav-link">
+					<div class="book books-3" [class.selected]="selected == 3" (click)="selected = 3">
+						<p class="text-warning title-item">
+
+							<i class="fa-solid fa-calendar-days"></i> Booking
+						</p>
+					</div>
+				</a>
 				<a routerLink="/library/students" appCheckRole [roles]="[role.LIBRARIAN]" class="nav-link">
 					<div class="book books-4" [class.selected]="selected == 4" (click)="selected = 4">
-						<p class="text-warning">
+						<p class="text-warning title-item">
 							<i class="fa-solid fa-users"></i> Students
 						</p>
 					</div>
 				</a>
 				<a routerLink="/library/careers" appCheckRole [roles]="[role.LIBRARIAN]" class="nav-link">
 					<div class="book books-4" [class.selected]="selected == 5" (click)="selected = 5">
-						<p class="text-warning">
+						<p class="text-warning title-item">
 							<i class="fa-solid fa-graduation-cap"></i> Careers
 						</p>
 					</div>
 				</a>
+				<a routerLink="/library/reports" appCheckRole [roles]="[role.LIBRARIAN]" class="nav-link">
+					<div class="book books-4 book-report" [class.selected]="selected == 6" (click)="selected = 6">
+						<p class="text-warning title-item">
+							<i class="fa-solid fa-chart-pie"></i> Reports
+						</p>
+					</div>
+				</a>
+				<div class="door" (click)="logout = true">
+					<p class="text-warning title-item">
+						<i class="fa-solid fa-right-from-bracket"></i> Logout
+					</p>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
+<app-logout-modal *ngIf="logout" (close)="logout = false"></app-logout-modal>

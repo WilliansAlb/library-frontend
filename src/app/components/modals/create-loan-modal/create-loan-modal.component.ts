@@ -54,8 +54,12 @@ export class CreateLoanModalComponent implements OnInit {
   searchStudent = (searchWord, items) => {
     searchWord = searchWord.toLowerCase();
     return items.filter((student) => {
-      return student.license == searchWord || student.name.toLowerCase().includes(searchWord)
-        || student.career.name.toLowerCase().includes(searchWord)
+      if (student.license == "-1"){
+        return student.license == searchWord;
+      } else {
+        return student.license == searchWord || student.name.toLowerCase().includes(searchWord)
+          || student.career.name.toLowerCase().includes(searchWord)
+      }
     });
   }
 

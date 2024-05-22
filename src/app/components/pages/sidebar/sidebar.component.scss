@@ -91,3 +91,9 @@ $tooltip-background-color: $sidebar-background-color;
 	background-image: url("../../../../assets/img/library.jpg");
 	background-size: cover;
 }
+
+.title-item {
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+}

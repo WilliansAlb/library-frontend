@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { LoanStudentRequest } from '../models/loan.model';
+import { LoanStudentRequest, PayLoanRequest } from '../models/loan.model';
 
 @Injectable({
 	providedIn: 'root'
@@ -33,5 +33,9 @@ export class LoanService {
 				endDate: endDate
 			}
 		})
+	}
+
+	payLoan(request: PayLoanRequest){
+		return this.http.put(this.URL, request);
 	}
 }

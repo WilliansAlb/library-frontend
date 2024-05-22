@@ -44,7 +44,7 @@
 				left: 0;
 				width: 100%;
 				height: 100%;
-				background-image: url("../../../../assets/img/coverv2.png");
+				background-image: url("../../../../assets/img/coverv3.png");
 				background-size: contain;
 				transform-origin: left;
 				transform-style: preserve-3d;
@@ -58,7 +58,7 @@
 				flex-direction: column;
 				justify-content: center;
 				align-items: center;
-				background-image: url("../../../../assets/img/contentv2.png") !important;
+				background-image: url("../../../../assets/img/contentv3.png") !important;
 				background-size: contain;
 				padding-right: 1.5em;
 			}
@@ -79,4 +79,34 @@
 
 .test {
 	color: transparent;
+}
+
+.university {
+	text-align: justify !important;
+    font-weight: bold !important;
+    padding: 0 4em !important;
+    font-size: 1.6em !important;
+}
+
+.input-custom {
+	background-color: transparent;
+    border: none;
+    font-size: 2em;
+    text-align: center;
+    color: green;
+    font-style: italic;
+}
+
+.btn1 {
+	display: inline-block;
+    text-transform: uppercase;
+    border: 2px solid #2c3e50;
+    margin-top: 1em;
+    font-size: 1em;
+    font-weight: 700;
+    padding: 0.1em 0.4em;
+    text-align: center;
+    transition: color 0.3s, border-color 0.3s;
+    font-family: "Crimson Text";
+	background-color: #ffffff59;
 }

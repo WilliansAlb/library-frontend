@@ -6,18 +6,18 @@
 			<div class="cover">
 			</div>
 			<div class="content">
-				<h3 style="text-align: center;font-weight: bold; padding: 1em;">Biblioteca del Centro Universitario de
-					Occidente</h3>
+				<h3 style="text-align: center;font-weight: bold; padding: 1em;" class="university">CENTRO UNIVERSITARIO
+					DE OCCIDENTE</h3>
+				<h2 style="font-size: 4.5em">LIBRARY</h2>
 				<div class="form-group">
-					<label for="user" class="form-label">Usuario</label>
-					<input type="text" [(ngModel)]="newLogin.username" class="form-control">
+					<input type="text" placeholder="USERNAME" [(ngModel)]="newLogin.username" class="form-control input-custom">
 				</div>
 				<div class="form-group">
-					<label for="password" class="form-label">Contraseña</label>
-					<input type="password" [(ngModel)]="newLogin.password" class="form-control">
+					<input type="password" placeholder="PASSWORD" [(ngModel)]="newLogin.password"
+						class="form-control input-custom">
 				</div>
-				<button class="btn btn-primary mt-2"  (click)="login()">
-					<i class="fa-solid fa-right-to-bracket"></i> INGRESAR
+				<button class="btn1" (click)="login()">
+					<i class="fa-solid fa-right-to-bracket"></i> LOGIN
 				</button>
 			</div>
 		</div>

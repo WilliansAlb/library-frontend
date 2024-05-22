@@ -1,6 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { ButtonLoading } from 'src/app/models/loading-button.model';
-import { BalanceLoanResponse } from 'src/app/models/loan.model';
+import { BalanceLoanResponse, LoanResponse, PayLoanRequest } from 'src/app/models/loan.model';
+import { LoanService } from 'src/app/services/loan.service';
 
 @Component({
   selector: 'app-balance-modal',
@@ -13,9 +16,12 @@ export class BalanceModalComponent implements OnInit {
   @Input() todayDate = "";
   daysOverdue = 0;
   daysNormal = 0;
-  buttonSave = new ButtonLoading("btn-success",false,"PAY","fa fa-dollar")
+  buttonSave = new ButtonLoading("btn-success", false, "PAY", "fa fa-dollar")
 
-  constructor() {
+  constructor(
+    private loanService: LoanService,
+    private toastService: ToastrService
+  ) {
 
   }
 
@@ -26,12 +32,26 @@ export class BalanceModalComponent implements OnInit {
     this.daysNormal = (this.daysNormal > 0) ? this.daysNormal : 0;
   }
 
-  doPayment(){
-    if (this.buttonSave.loading){
+  doPayment() {
+    if (this.buttonSave.loading) {
       return;
     }
     this.buttonSave.loading = true;
-    
+    var request = new PayLoanRequest();
+    request.toPay = this.balance.loan;
+    request.todayDate = this.todayDate;
+    this.loanService.payLoan(request).subscribe({
+      next: (response: LoanResponse) => {
+        this.toastService.success("Pay loan successfully!")
+        this.buttonSave.loading = false;
+        this.close.emit(response);
+      },
+      error: (error: HttpErrorResponse) => {
+        this.buttonSave.loading = false;
+        this.toastService.error(error.error);
+      }
+    })
+
   }
 
   getDateBefore(before, after) {

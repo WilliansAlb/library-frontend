@@ -1,39 +1,37 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { RoleEnum } from 'src/app/enums/role.enum';
-import { BookResponse } from 'src/app/models/book.model';
-import { InputAutocompleteConfiguration } from 'src/app/models/input-autocomplete.model';
-import { BalanceLoanResponse, LoanResponse, LoanStudentRequest } from 'src/app/models/loan.model';
 import { StudentResponse } from 'src/app/models/student.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { BookService } from 'src/app/services/book.service';
 import { LoanService } from 'src/app/services/loan.service';
 import { StudentService } from 'src/app/services/student.service';
+import { ToastrService } from 'ngx-toastr';
+import { RoleEnum } from 'src/app/enums/role.enum';
+import { InputAutocompleteConfiguration } from 'src/app/models/input-autocomplete.model';
+import { BookingService } from 'src/app/services/booking.service';
+import { BookingResponse } from 'src/app/models/booking.model';
 
 @Component({
-  selector: 'app-loans',
-  templateUrl: './loans.component.html',
-  styleUrls: ['./loans.component.scss']
+  selector: 'app-booking',
+  templateUrl: './booking.component.html',
+  styleUrls: ['./booking.component.scss']
 })
-export class LoansComponent implements OnInit {
-  createLoan: LoanStudentRequest = null;
+export class BookingComponent implements OnInit {
   students: StudentResponse[] = [];
+  allStudents = new StudentResponse();
+  studentSelected: StudentResponse = null;
   role = RoleEnum;
   endDate = "";
   startDate = "";
-  allStudents = new StudentResponse();
-  configurationStudents: InputAutocompleteConfiguration = new InputAutocompleteConfiguration("fa-circle-check", true, true, null, "TODOS");
-  studentSelected = null;
-  loans: LoanResponse[] = [];
   todayDate = "";
-  balance : BalanceLoanResponse = null;
+  configurationStudents: InputAutocompleteConfiguration = new InputAutocompleteConfiguration("fa-circle-check", true, true, null, "TODOS");
+  bookingList : BookingResponse[] = [];
 
   constructor(
     private studentService: StudentService,
     private bookService: BookService,
     private toastService: ToastrService,
     private loanService: LoanService,
+    private bookingService: BookingService,
     private authService: AuthService
   ) {
     this.allStudents.license = "-1";
@@ -55,12 +53,6 @@ export class LoansComponent implements OnInit {
     this.getAllStudents();
   }
 
-  getDateBefore(before, after) {
-    const diffInMs = new Date(after).getTime() - new Date(before).getTime();
-    const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
-    return diffInDays;
-  }
-
   searchStudent = (searchWord, items) => {
     searchWord = searchWord.toLowerCase();
     return items.filter((student) => {
@@ -75,23 +67,7 @@ export class LoansComponent implements OnInit {
 
   search() {
     if (this.studentSelected)
-      this.getAllLoansByIntervalDateAndStudent();
-  }
-
-  getAllLoansByIntervalDateAndStudent() {
-    this.loanService.getAllLoansByIntervalDateAndStudent(this.studentSelected.license, this.startDate, this.endDate).subscribe({
-      next: (response: LoanResponse[]) => {
-        this.loans = response;
-      },
-      error: (error) => {
-        this.toastService.error(error.error);
-      }
-    })
-  }
-
-  createLoanModal() {
-    this.createLoan = new LoanStudentRequest();
-    this.createLoan.todayDate = this.todayDate;
+      this.findBookingsByStudentAndIntervalDate();
   }
 
   getAllStudents() {
@@ -101,19 +77,23 @@ export class LoansComponent implements OnInit {
         response.forEach((student) => {
           this.students.push(student);
         });
-        this.getAllLoansByIntervalDateAndStudent();
+        this.findBookingsByStudentAndIntervalDate();
       }
     })
   }
 
-  showBalance(loan: LoanResponse){
-    this.loanService.getBalanceLoan(loan.loanId, this.todayDate).subscribe({
-      next:(response:BalanceLoanResponse) => {
-        this.balance = response;
-      },
-      error: (error:HttpErrorResponse) => {
-        this.toastService.error(error.error);
-      }
-    })
+  findBookingsByStudentAndIntervalDate() {
+    this.bookingService.findBookingsByStudentAndIntervalDate(
+      this.studentSelected.license,
+      this.startDate,
+      this.endDate,
+      this.todayDate).subscribe({
+        next: (response: BookingResponse[]) => {
+          this.bookingList = response;
+        },
+        error: (error) => {
+          this.toastService.error(error.error);
+        }
+      })
   }
 }

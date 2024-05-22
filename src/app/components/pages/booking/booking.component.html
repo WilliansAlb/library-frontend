@@ -1,0 +1,101 @@
+<div class="card m-5">
+	<div class="card-header">
+		<h1>BOOKING</h1>
+	</div>
+	<div class="card-body">
+		<div class="row">
+			<div class="col form-group" appCheckRole [roles]="[role.LIBRARIAN]">
+				<label for="license" class="form-label">Student</label>
+				<div class="input-group">
+					<app-input-autocomplete (select)="studentSelected = $event; search()"
+						[totalElements]="this.students" [filterFunction]="searchStudent" [allBorderRadius]="true"
+						[filterElements]="this.students"
+						(getTitle)="$event.filterElement.title = ($event.filterElement.license!='-1'? $event.filterElement.license + ' ':'')+ '' + $event.filterElement.name"
+						[configuration]="configurationStudents">
+						<ng-template #itemsTemplate let-filter>
+							<!-- This is the content that will be projected -->
+							<div items>
+								<h3>{{filter.license!='-1'? filter.license:'TODOS'}}</h3>
+								<p class="text-muted" *ngIf="filter.license!='-1'">{{filter.name}} </p>
+								<hr style="margin: 0 !important;">
+							</div>
+						</ng-template>
+					</app-input-autocomplete>
+				</div>
+			</div>
+			<div class="col form-group">
+				<label for="startDate" class="form-label">Start date</label>
+				<input type="date" name="startDate" (change)="search()" [(ngModel)]="startDate" id="startDate"
+					class="form-control">
+			</div>
+			<div class="col form-group">
+				<label for="endDate" class="form-label">End date</label>
+				<input type="date" name="endDate" (change)="search()" [(ngModel)]="endDate" id="endDate"
+					class="form-control">
+			</div>
+			<div class="col form-group">
+				<label for="todayDate" class="form-label">Today date</label>
+				<input type="date" name="todayDate" [(ngModel)]="todayDate" id="todayDate" class="form-control">
+			</div>
+		</div>
+		<div class="table-responsive">
+			<table class="table">
+				<thead>
+					<tr class="tr-middle">
+						<th rowspan="2">Student</th>
+						<th rowspan="2">Book</th>
+						<th colspan="2">Dates</th>
+						<th rowspan="2">Status</th>
+					</tr>
+					<tr class="tr-middle">
+						<th>Released</th>
+						<th>Limit</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="tr-middle" *ngFor="let booking of bookingList">
+						<td>
+							<h3>{{booking.student.license}}</h3>
+							<p class="text-muted">{{booking.student.name}}</p>
+						</td>
+						<td style="max-width: 200px;">
+							<div class="book">
+								<img src="{{booking.book.frontCover}}" width="50px" alt="">
+								<h3 style="width: 250px;">{{booking.book.isbn}}</h3>
+								<p class="text-muted">{{booking.book.title}}</p>
+							</div>
+						</td>
+						<ng-container *ngIf="booking.releaseDate">
+							<td>
+								<h4>{{booking.releaseDate}}</h4>
+							</td>
+							<td>
+								<h4>{{booking.limitDate}}</h4>
+							</td>
+						</ng-container>
+						<ng-container *ngIf="!booking.releaseDate">
+							<td colspan="2">
+								<p class="h3">NO COPIES AVAILABLE YET</p>
+							</td>
+						</ng-container>
+						<td *ngIf="booking.releaseDate" class="bg-success">
+							<h3><i style="color: white;" class=" fa fa-circle-check"></i></h3>
+							<p style="color: white;">AVAILABLE</p>
+						</td>
+						<td *ngIf="!booking.releaseDate" class="bg-secondary">
+							<h3><i class="text-warning fa fa-clock"></i></h3>
+							<p class="text-warning">WAITING</p>
+						</td>
+					</tr>
+					<tr *ngIf="bookingList.length == 0">
+						<td class="td-middle" colspan="5">
+							<span class="display-1 text-center text-info">
+								<i class="fa fa-circle-info"></i>There's no booking list
+							</span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,14 @@
+<app-simple-modal [title]="'BOOKING'" [maxWidth]="30" [showRequired]="false" (close)="close.emit($event)">
+	<div fields style="display: flex;
+    	flex-direction: column;
+    	align-content: center;
+    	justify-content: center;
+    	align-items: center;">
+		<img src="../../../../assets/img/question-mark.gif" class="question" alt="">
+		<span class="display-5 text-center">Are you sure about booking the book?</span>
+		<p class="text-muted">You will be notified when it is available.</p>
+	</div>
+	<div buttons>
+		<app-loading-button [object]="buttonSave" (clicked)="createBooking()"></app-loading-button>
+	</div>
+</app-simple-modal>

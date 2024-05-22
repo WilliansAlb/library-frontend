@@ -25,9 +25,11 @@
 						<ul class="page">
 							<li></li>
 							<li>
-								<span class="btn1">
-									{{book.availableCopies > 0 ? 'LEND':'BOOKING'}}
-								</span>
+								<ng-container *ngIf="book.availableCopies <= 0">
+									<span (click)="showBookingModal(book)"  appCheckRole [roles]="[role.STUDENT]" class="btn1">
+										BOOKING
+									</span>
+								</ng-container>
 								<br>
 								<span class="btn1" (click)="actionView = actions.PREVIEW; bookView = book">
 									SEE DETAILS
@@ -59,3 +61,4 @@
 	</div>
 </div>
 <app-book-modal *ngIf="bookView" [book]="bookView" [action]="actionView" (close)="closeModal($event)"></app-book-modal>
+<app-booking-modal *ngIf="bookingRequest" [request]="bookingRequest" (close)="bookingRequest = null"></app-booking-modal>

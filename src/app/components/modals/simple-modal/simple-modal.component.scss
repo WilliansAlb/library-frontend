@@ -12,7 +12,7 @@
 	z-index: 1000;
 	overflow: hidden;
 	position: fixed;
-	background-color: #001f54b5;
+	background-color: rgb(30 25 19 / 78%);
 	backdrop-filter: blur(2px);
 	animation: fadeIn 100ms ease-in;
 }
@@ -107,4 +107,8 @@
 
 .modal-header {
 	justify-content: space-between !important;
+}
+
+.modal-content {
+	background-color: beige !important;
 }

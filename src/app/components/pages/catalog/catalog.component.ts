@@ -4,6 +4,8 @@ import { ToastrService } from 'ngx-toastr';
 import { ActionEnum } from 'src/app/enums/action.enum';
 import { RoleEnum } from 'src/app/enums/role.enum';
 import { BookResponse } from 'src/app/models/book.model';
+import { BookingRequest } from 'src/app/models/booking.model';
+import { AuthService } from 'src/app/services/auth.service';
 import { BookService } from 'src/app/services/book.service';
 
 @Component({
@@ -14,17 +16,20 @@ import { BookService } from 'src/app/services/book.service';
 export class CatalogComponent implements OnInit {
   books:BookResponse[] = [];
   bookView: BookResponse = null;
+  bookingRequest: BookingRequest = null;
   actionView: number = ActionEnum.CREATE;
   actions = ActionEnum;
   role = RoleEnum;
   searchWord = "";
   timeout = null;
+  todayDate = "";
 
   constructor(
     private bookService: BookService,
-    private toastService: ToastrService
+    private toastService: ToastrService,
+    private authService: AuthService
   ){
-
+    this.todayDate = (new Date()).toISOString().split("T")[0];
   }
 
   search(){
@@ -69,5 +74,12 @@ export class CatalogComponent implements OnInit {
         console.log(error);
       }
     })
+  }
+
+  showBookingModal(book:BookResponse){
+    this.bookingRequest = new BookingRequest();
+    this.bookingRequest.book = book;
+    var student = this.authService.getStudent();
+    this.bookingRequest.student = student;
   }
 }

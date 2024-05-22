@@ -1,0 +1,13 @@
+<app-simple-modal [title]="'LOGOUT'" [maxWidth]="30" [showRequired]="false" (close)="close.emit($event)">
+	<div fields style="display: flex;
+    	flex-direction: column;
+    	align-content: center;
+    	justify-content: center;
+    	align-items: center;">
+		<img src="../../../../assets/img/question-mark.gif" class="question" alt="">
+		<span class="display-5 text-center">Are you sure about logout?</span>
+	</div>
+	<div buttons>
+		<app-loading-button [object]="buttonSave" (clicked)="logout()"></app-loading-button>
+	</div>
+</app-simple-modal>
