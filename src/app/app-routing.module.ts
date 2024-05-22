@@ -11,6 +11,7 @@ import { authGuard } from './security/auth.guard';
 import { RoleEnum } from './enums/role.enum';
 import { BookingComponent } from './components/pages/booking/booking.component';
 import { ReportsComponent } from './components/pages/reports/reports.component';
+import { UploadComponent } from './components/pages/upload/upload.component';
 
 const routes: Routes = [{
   path: '', redirectTo: 'library/catalog', pathMatch: 'full'
@@ -50,6 +51,12 @@ const routes: Routes = [{
     {
       path: 'reports',
       component: ReportsComponent,
+      canActivate: [authGuard],
+      data: { roles: [RoleEnum.LIBRARIAN] }
+    },
+    {
+      path: 'upload',
+      component: UploadComponent,
       canActivate: [authGuard],
       data: { roles: [RoleEnum.LIBRARIAN] }
     }

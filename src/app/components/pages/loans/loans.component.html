@@ -109,5 +109,5 @@
 		</div>
 	</div>
 </div>
-<app-create-loan-modal *ngIf="createLoan" [toCreate]="createLoan" (close)="createLoan = null"></app-create-loan-modal>
-<app-balance-modal *ngIf="balance" [balance]="balance" [todayDate]="todayDate" (close)="balance = null; getAllLoansByIntervalDateAndStudent()"></app-balance-modal>
+<app-create-loan-modal *ngIf="createLoan" [toCreate]="createLoan" (close)="closeModalCreateLoan()"></app-create-loan-modal>
+<app-balance-modal *ngIf="balance" [balance]="balance" [todayDate]="todayDate" (close)="closeModalBalanceLoan()"></app-balance-modal>

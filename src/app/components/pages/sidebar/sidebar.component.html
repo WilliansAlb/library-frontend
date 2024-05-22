@@ -46,6 +46,14 @@
 						</p>
 					</div>
 				</a>
+				<a routerLink="/library/upload" appCheckRole [roles]="[role.LIBRARIAN]" class="nav-link">
+					<div class="book books-4 book-report upload" [class.selected]="selected == 7"
+						(click)="selected = 7">
+						<p class="text-warning title-item" style="color: black !important;">
+							<i class="fa-solid fa-upload"></i> Upload
+						</p>
+					</div>
+				</a>
 				<div class="door" (click)="logout = true">
 					<p class="text-warning title-item">
 						<i class="fa-solid fa-right-from-bracket"></i> Logout

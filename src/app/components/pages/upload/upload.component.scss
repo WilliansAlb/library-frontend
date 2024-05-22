@@ -1,0 +1,33 @@
+.mono {
+	font-family: monospace;
+	td {
+		opacity: 0.6;
+	}
+}
+
+.title {
+	td {
+		opacity: 1;
+	}
+}
+
+.student td {
+	background-color: skyblue;
+}
+
+.book td {
+	background-color: #77dd77;
+}
+
+.career td {
+	background-color: silver;
+}
+
+.loan td {
+	background-color: beige;
+}
+
+.error td {
+	background-color: #ff6961;
+	opacity: 1 !important;
+}

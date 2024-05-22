@@ -1,0 +1,60 @@
+<div class="card m-5">
+	<div class="card-header">
+		<h1>UPLOAD FILE</h1>
+	</div>
+	<div class="card-body">
+		<div class="row">
+			<div class="col form-group">
+				<label for="todayDate" class="form-label">Today date</label>
+				<input type="date" name="todayDate" id="todayDate" [(ngModel)]="todayDate" class="form-control">
+			</div>
+			<div class="col form-group">
+				<label for="file" class="form-label">File</label>
+				<div class="input-group">
+					<input type="file" class="form-control" (change)="onFileSelected($event)" />
+					<button class="btn btn-success" (click)="onUpload()">Upload</button>
+				</div>
+			</div>
+		</div>
+		<div class="table-responsive">
+			<table class="table">
+				<thead>
+					<tr>
+						<th class="td-middle">LINE</th>
+						<th>CONTENT</th>
+						<th>STATUS</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr [class.student]="types.STUDENT == line.type" [class.book]="types.BOOK == line.type"
+						[class.career]="types.CAREER == line.type" [class.loan]="types.LOAN == line.type"
+						[class.error]="types.ERROR == line.type"
+						[class.title]="getValidate(line.content, 'BOOK') || getValidate(line.content, 'LOAN')
+						|| getValidate(line.content, 'STUDENT') || getValidate(line.content, 'CAREER')"
+					class="mono" *ngFor="let line of lines; let i = index">
+						<td class="td-middle">{{i+1}}
+							<i class="fa fa-book" *ngIf="getValidate(line.content, 'BOOK')"></i>
+							<i class="fa fa-clock" *ngIf="getValidate(line.content, 'LOAN')"></i>
+							<i class="fa fa-user" *ngIf="getValidate(line.content, 'STUDENT')"></i>
+							<i class="fa fa-graduation-cap" *ngIf="getValidate(line.content, 'CAREER')"></i>
+						</td>
+						<td>{{line.content}}</td>
+						<td class="td-middle">
+							<ng-container *ngIf="line.error">
+								<ng-container *ngIf="line.error!='SAVED'">
+									{{line.error}}
+								</ng-container>
+								<ng-container *ngIf="line.error=='SAVED'">
+									<i class="fa fa-save"></i>GUARDADO
+								</ng-container>
+							</ng-container>
+							<ng-container *ngIf="!line.error && loading">
+								<span class="spinner-border spinner-border-sm"></span>
+							</ng-container>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

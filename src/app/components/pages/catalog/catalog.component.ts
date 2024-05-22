@@ -54,6 +54,7 @@ export class CatalogComponent implements OnInit {
   closeModal(event){
     this.bookView = null;
     this.actionView = ActionEnum.CREATE;
+    this.getAllBooks();
   }
 
   createBook(){

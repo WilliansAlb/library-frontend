@@ -116,4 +116,14 @@ export class LoansComponent implements OnInit {
       }
     })
   }
+
+  closeModalCreateLoan(){
+    this.createLoan = null;
+    this.getAllLoansByIntervalDateAndStudent();
+  }
+
+  closeModalBalanceLoan(){
+    this.balance = null;
+    this.getAllLoansByIntervalDateAndStudent();
+  }
 }

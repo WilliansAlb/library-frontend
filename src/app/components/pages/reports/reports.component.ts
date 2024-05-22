@@ -16,7 +16,7 @@ import { StudentService } from 'src/app/services/student.service';
   styleUrls: ['./reports.component.scss']
 })
 export class ReportsComponent implements OnInit {
-  report = "10";
+  report = "1";
   todayDate = "";
   endDate = "";
   startDate = "";
@@ -52,8 +52,7 @@ export class ReportsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.loansForToday();
-    this.loansWithOverdue();
+    this.loansForToday();
     this.getAllStudents();
   }
 

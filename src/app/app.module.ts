@@ -29,6 +29,7 @@ import { BookingComponent } from './components/pages/booking/booking.component';
 import { BookingModalComponent } from './components/modals/booking-modal/booking-modal.component';
 import { ReportsComponent } from './components/pages/reports/reports.component';
 import { LogoutModalComponent } from './components/modals/logout-modal/logout-modal.component';
+import { UploadComponent } from './components/pages/upload/upload.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { LogoutModalComponent } from './components/modals/logout-modal/logout-mo
     BookingComponent,
     BookingModalComponent,
     ReportsComponent,
-    LogoutModalComponent
+    LogoutModalComponent,
+    UploadComponent
   ],
   imports: [
     BrowserModule,

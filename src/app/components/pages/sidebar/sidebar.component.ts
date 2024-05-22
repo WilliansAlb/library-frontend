@@ -41,6 +41,8 @@ export class SidebarComponent implements OnInit {
       this.selected = 5;
     } else if (url.includes('reports')) {
       this.selected = 6;
+    } else if (url.includes('upload')) {
+      this.selected = 7;
     }
   }
 }
